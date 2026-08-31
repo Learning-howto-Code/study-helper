@@ -58,7 +58,8 @@ const Learn = {
   },
 
   header() {
-    const total = this.s.order.length;
+    // Words deleted mid-session drop out of the denominator.
+    const total = this.s.order.filter(id => this.s.done.has(id) || Store.getWord(id)).length;
     const done = this.s.done.size;
     const pct = total ? Math.round((done / total) * 100) : 0;
     return `
@@ -69,6 +70,7 @@ const Learn = {
   renderIntro() {
     const b = this.s.batch;
     const w = Store.getWord(b.ids[b.introI]);
+    if (!w) return this.introNext();
     this.container.innerHTML = `
       <section class="mode">
         ${this.header()}
@@ -108,8 +110,14 @@ const Learn = {
 
   renderMC(t) {
     const w = Store.getWord(t.id);
-    const others = sample(Store.words.filter(x => x.id !== w.id), 3)
-      .map(x => ({ text: x.def, correct: false }));
+    const normDef = s => s.trim().toLowerCase();
+    const seenDefs = new Set([normDef(w.def)]);
+    const pool = Store.words.filter(x => {
+      if (x.id === w.id || seenDefs.has(normDef(x.def))) return false;
+      seenDefs.add(normDef(x.def));
+      return true;
+    });
+    const others = sample(pool, 3).map(x => ({ text: x.def, correct: false }));
     const options = shuffle([{ text: w.def, correct: true }, ...others]);
     this.container.innerHTML = `
       <section class="mode">
@@ -235,7 +243,7 @@ const Learn = {
         <div class="learn-card">
           <span class="chip">Done</span>
           <h2>Session complete</h2>
-          <p class="lead">All ${this.s.order.length} words mastered this round.</p>
+          <p class="lead">All ${this.s.done.size} words mastered this round.</p>
           ${missed.length ? `<p class="lead">Tripped you up: ${missed.map(w => `<strong>${esc(w.term)}</strong>`).join(', ')}.
             They lead the next session.</p>` : ''}
           <div class="controls"><button class="btn btn-primary" id="learn-primary">Start a new session</button></div>

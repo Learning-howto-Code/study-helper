@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.tab').forEach(t =>
     t.addEventListener('click', () => showView(t.dataset.view)));
   document.addEventListener('keydown', e => {
-    if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    if (e.target && /^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(e.target.tagName)) return;
     if (active && active.onKey) active.onKey(e);
   });
   showView('flashcards');

@@ -6,7 +6,10 @@ const Flashcards = {
 
   enter(container) {
     this.container = container;
-    this.start();
+    // Keep mid-deck progress across tab switches; render() shows the
+    // finished screen when done.
+    if (this.deck.length) this.render();
+    else this.start();
   },
 
   start(ids) {
@@ -36,7 +39,7 @@ const Flashcards = {
     this.container.innerHTML = `
       <section class="mode">
         <p class="progress-label">${this.i + 1} / ${this.deck.length}</p>
-        <div class="flashcard" id="fc-card">
+        <div class="flashcard${this.flipped ? ' flipped' : ''}" id="fc-card">
           <div class="flashcard-inner">
             <div class="face front">
               <span class="term">${esc(w.term)}</span>
@@ -78,7 +81,7 @@ const Flashcards = {
   answer(correct) {
     if (this.done || !this.flipped) return;
     const w = this.card();
-    Stats.record(w.id, 'flashcards', correct);
+    if (Store.getWord(w.id)) Stats.record(w.id, 'flashcards', correct);
     if (correct) this.got++;
     else this.missedIds.push(w.id);
     this.i++;
