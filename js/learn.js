@@ -78,10 +78,34 @@ const Learn = {
           <span class="chip">New word ${b.introI + 1} of ${b.ids.length}</span>
           <p class="term">${esc(w.term)}</p>
           <p class="def">${esc(w.def)}</p>
+          <div class="controls">
+            <input class="text-input" id="learn-input" autocomplete="off"
+              placeholder="Type the term to continue&hellip;">
+          </div>
           <div class="controls"><button class="btn btn-primary" id="learn-primary">Next</button></div>
+          <p id="learn-note"></p>
         </div>
       </section>`;
-    this.container.querySelector('#learn-primary').onclick = () => this.introNext();
+    const input = this.container.querySelector('#learn-input');
+    input.focus();
+    const norm = s => s.trim().toLowerCase().replace(/\s+/g, ' ');
+    const submit = () => {
+      if (norm(input.value) === norm(w.term)) {
+        input.disabled = true;
+        input.classList.add('input-right');
+        this._t = setTimeout(() => this.introNext(), 350);
+      } else {
+        input.classList.add('input-wrong');
+        this.container.querySelector('#learn-note').innerHTML =
+          '<span class="note-wrong">Type the word shown above to continue.</span>';
+        input.select();
+      }
+    };
+    this.container.querySelector('#learn-primary').onclick = submit;
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !input.disabled) submit();
+    });
+    input.addEventListener('input', () => input.classList.remove('input-wrong'));
   },
 
   introNext() {
