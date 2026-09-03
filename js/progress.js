@@ -24,7 +24,7 @@ const Progress = {
     if (!rows.length) {
       this.container.innerHTML = `
         <div class="pane">
-          <h2>Progress</h2>
+          <h2>Progress <span class="count">${esc(Store.activeDeck().name)}</span></h2>
           <div class="empty">Nothing tracked yet &mdash; run through a mode first.</div>
         </div>`;
       return;
@@ -33,7 +33,7 @@ const Progress = {
     const top = rows.filter(r => r.misses > 0).slice(0, 5);
     this.container.innerHTML = `
       <div class="pane">
-        <h2>Progress</h2>
+        <h2>Progress <span class="count">${esc(Store.activeDeck().name)}</span></h2>
         ${top.length ? `
           <p class="section-label">Most missed</p>
           <div class="chips">

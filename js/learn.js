@@ -23,6 +23,11 @@ const Learn = {
     clearTimeout(this._t);
   },
 
+  reset() {
+    clearTimeout(this._t);
+    this.s = null;
+  },
+
   renderStart() {
     this.container.innerHTML = `
       <section class="mode">

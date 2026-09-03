@@ -10,11 +10,24 @@ const Views = {
 
 let active = null;
 
+// Called when the active set changes: any half-finished session belongs to
+// the old set, so drop it.
+function resetSessions() {
+  Object.values(Views).forEach(v => { if (v.reset) v.reset(); });
+}
+
+function updateDeckChip() {
+  const chip = document.getElementById('deck-chip');
+  const deck = Store.activeDeck();
+  if (chip) chip.textContent = deck ? deck.name : '';
+}
+
 function showView(name) {
   if (active && active.exit) active.exit();
   active = Views[name];
   document.querySelectorAll('.tab').forEach(t =>
     t.classList.toggle('active', t.dataset.view === name));
+  updateDeckChip();
   const main = document.getElementById('view');
   main.innerHTML = '';
   active.enter(main);

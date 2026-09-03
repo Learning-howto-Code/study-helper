@@ -31,6 +31,15 @@ const Flashcards = {
     this.render();
   },
 
+  reset() {
+    this.deck = [];
+    this.i = 0;
+    this.flipped = false;
+    this.missedIds = [];
+    this.got = 0;
+    this.done = false;
+  },
+
   card() { return this.deck[this.i]; },
 
   render() {

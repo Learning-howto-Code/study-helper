@@ -301,6 +301,41 @@ code {
 .x-btn { border: none; background: none; color: var(--muted); font-size: 16px; cursor: pointer; }
 .x-btn:hover { color: var(--wrong); }
 
+/* Set (deck) switcher */
+.deck-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+.deck-label { color: var(--muted); font-size: 13px; letter-spacing: .05em; }
+.select {
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+}
+.select:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+.select.grow { flex: 1; min-width: 180px; }
+.deck-bar .text-input.grow { flex: 1; min-width: 180px; max-width: none; }
+.deck-chip {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .05em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
 .foot { text-align: center; color: var(--muted); font-size: 12px; padding: 34px 0 44px; }
 
 @media (max-width: 560px) {
