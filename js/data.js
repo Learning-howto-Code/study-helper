@@ -23,6 +23,104 @@ const DEFAULT_WORDS = [
   { term: 'reticent', def: 'reserved; reluctant to speak' },
 ];
 
+// Ready-made card sets. Terms are the answer side you have to produce, so
+// Spanish is the term and the English gloss is the definition.
+const PRESET_SETS = [
+  {
+    id: 'es-presente',
+    name: 'Spanish present tense verbs',
+    note: 'Irregular yo, stem-changing, reflexive, and extra verbs.',
+    words: [
+      // Irregular yo forms
+      { term: 'dar', def: 'to give' },
+      { term: 'conocer', def: 'to know (a person, a place)' },
+      { term: 'saber', def: 'to know (a fact, information)' },
+      { term: 'ir', def: 'to go' },
+      { term: 'salir', def: 'to leave, to go out' },
+      { term: 'tener', def: 'to have' },
+      { term: 'ser', def: 'to be (description, personality, time, date)' },
+      { term: 'estar', def: 'to be (location, feelings)' },
+      { term: 'hacer', def: 'to do, to make' },
+      { term: 'poner', def: 'to put, to place' },
+      { term: 'ver', def: 'to see' },
+      { term: 'caer', def: 'to fall' },
+      { term: 'traer', def: 'to bring' },
+      { term: 'seguir', def: 'to follow, to continue' },
+      { term: 'oír', def: 'to hear' },
+      { term: 'decir', def: 'to say, to tell' },
+      { term: 'venir', def: 'to come' },
+      { term: 'traducir', def: 'to translate' },
+      { term: 'conducir', def: 'to drive' },
+      { term: 'parecer', def: 'to seem' },
+      { term: 'obtener', def: 'to obtain, to get' },
+      // Stem-changing verbs
+      { term: 'empezar', def: 'to start, to begin' },
+      { term: 'comenzar', def: 'to start, to begin (second verb)' },
+      { term: 'cerrar', def: 'to close, to shut' },
+      { term: 'entender', def: 'to understand' },
+      { term: 'pensar', def: 'to think' },
+      { term: 'perder', def: 'to lose' },
+      { term: 'preferir', def: 'to prefer' },
+      { term: 'querer', def: 'to want' },
+      { term: 'almorzar', def: 'to have lunch' },
+      { term: 'contar', def: 'to count; to tell (a joke or story)' },
+      { term: 'dormir', def: 'to sleep' },
+      { term: 'aprender', def: 'to learn' },
+      { term: 'encontrar', def: 'to find' },
+      { term: 'mostrar', def: 'to show' },
+      { term: 'poder', def: 'to be able to' },
+      { term: 'recordar', def: 'to remember' },
+      { term: 'pedir', def: 'to ask for' },
+      { term: 'repetir', def: 'to repeat' },
+      // Reflexive verbs
+      { term: 'llamarse', def: 'to be called, to be named' },
+      { term: 'acordarse (de)', def: 'to remember' },
+      { term: 'acostarse', def: 'to go to bed' },
+      { term: 'afeitarse', def: 'to shave' },
+      { term: 'bañarse', def: 'to take a bath' },
+      { term: 'cepillarse el pelo', def: "to brush one's hair" },
+      { term: 'cepillarse los dientes', def: "to brush one's teeth" },
+      { term: 'despertarse', def: 'to wake up' },
+      { term: 'dormirse', def: 'to go to sleep, to fall asleep' },
+      { term: 'ducharse', def: 'to take a shower' },
+      { term: 'enojarse (con)', def: 'to get angry (with)' },
+      { term: 'irse', def: 'to go away, to leave' },
+      { term: 'lavarse la cara', def: "to wash one's face" },
+      { term: 'lavarse las manos', def: "to wash one's hands" },
+      { term: 'levantarse', def: 'to get up' },
+      { term: 'maquillarse', def: 'to put on make-up' },
+      { term: 'peinarse', def: "to comb one's hair" },
+      { term: 'ponerse', def: 'to put on (clothing)' },
+      { term: 'ponerse + adjetivo', def: 'to become + adjective' },
+      { term: 'preocuparse (por)', def: 'to worry (about)' },
+      { term: 'probarse', def: 'to try on' },
+      { term: 'quedarse', def: 'to stay' },
+      { term: 'quitarse', def: 'to take off' },
+      { term: 'secarse', def: 'to dry (oneself)' },
+      { term: 'sentarse', def: 'to sit down' },
+      { term: 'sentirse', def: 'to feel' },
+      // Additional verbs
+      { term: 'suponer', def: 'to suppose' },
+      { term: 'volver', def: 'to return' },
+      { term: 'andar en patineta', def: 'to skateboard' },
+      { term: 'bucear', def: 'to scuba dive' },
+      { term: 'escalar montañas', def: 'to climb mountains' },
+      { term: 'escribir una carta', def: 'to write a letter' },
+      { term: 'esquiar', def: 'to ski' },
+      { term: 'ganar', def: 'to win' },
+      { term: 'ir de excursión', def: 'to go on a hike' },
+      { term: 'nadar', def: 'to swim' },
+      { term: 'pasear', def: 'to take a walk' },
+      { term: 'patinar', def: 'to skate' },
+      { term: 'practicar deportes', def: 'to play sports' },
+      { term: 'tomar el sol', def: 'to sunbathe' },
+      { term: 'ver películas', def: 'to watch movies' },
+      { term: 'visitar monumentos', def: 'to visit monuments' },
+      { term: 'deber', def: 'should, ought to' },
+    ],
+  },
+];
+
 function makeId() {
   return 'w' + Math.random().toString(36).slice(2, 10);
 }
@@ -89,6 +187,24 @@ const Store = {
       const term = parts[0].trim(), def = parts[1].trim();
       if (!term || !def || this.hasTerm(term)) { skipped++; return; }
       this.words.push({ id: makeId(), term, def });
+      added++;
+    });
+    if (added) this.save();
+    return { added, skipped };
+  },
+
+  getSet(id) {
+    return PRESET_SETS.find(s => s.id === id);
+  },
+
+  // Adds a preset set's words, skipping terms already in the list.
+  addSet(id) {
+    const set = this.getSet(id);
+    if (!set) return { added: 0, skipped: 0 };
+    let added = 0, skipped = 0;
+    set.words.forEach(w => {
+      if (this.hasTerm(w.term)) { skipped++; return; }
+      this.words.push({ id: makeId(), ...w });
       added++;
     });
     if (added) this.save();

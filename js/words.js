@@ -25,6 +25,17 @@ const WordsView = {
           <textarea id="w-import" placeholder="ephemeral - lasting a very short time"></textarea>
           <div class="controls left"><button class="btn" id="w-import-btn">Import</button></div>
         </details>
+        <details class="import">
+          <summary>Card sets</summary>
+          <div class="set-list">
+            ${PRESET_SETS.map(s => `
+              <div class="set-row">
+                <span class="t">${esc(s.name)} <span class="count">${s.words.length}</span></span>
+                <span class="d">${esc(s.note || '')}</span>
+                <button class="btn" data-set="${esc(s.id)}">Add</button>
+              </div>`).join('')}
+          </div>
+        </details>
         ${this.notice ? `<p class="notice">${esc(this.notice)}</p>` : ''}
         <div class="word-list">
           ${words.map(w => `
@@ -61,6 +72,18 @@ const WordsView = {
         (res.skipped ? ` (${res.skipped} line${res.skipped === 1 ? '' : 's'} skipped)` : '') + '.';
       this.render();
     };
+
+    this.container.querySelectorAll('[data-set]').forEach(b => {
+      b.onclick = () => {
+        const set = Store.getSet(b.dataset.set);
+        const res = Store.addSet(b.dataset.set);
+        this.notice = res.added
+          ? `Added ${res.added} word${res.added === 1 ? '' : 's'} from ${set.name}` +
+            (res.skipped ? ` (${res.skipped} already in the list)` : '') + '.'
+          : `${set.name} is already in the list.`;
+        this.render();
+      };
+    });
 
     this.container.querySelectorAll('.x-btn').forEach(b => {
       b.onclick = () => {
