@@ -343,3 +343,58 @@ code {
   .term { font-size: 28px; }
   .word-row .t { min-width: 110px; }
 }
+
+/* Conjugate */
+.conj-bar { margin: 0 auto 10px; max-width: 680px; text-align: left; }
+.conj-bar .deck-label { white-space: nowrap; }
+.conj-note {
+  max-width: 680px;
+  margin: 0 auto 22px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: left;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.check input { accent-color: var(--accent); cursor: pointer; }
+.conj-prompt {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: var(--accent);
+  margin: 20px 0 0;
+}
+.tags { display: inline-flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
+.tag {
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+.conj-table { margin-top: 22px; text-align: left; }
+.conj-row {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.conj-person { color: var(--muted); font-size: 13px; }
+.conj-row .text-input { max-width: none; }
+.conj-answer { font-size: 13px; }
+.conj-ref { max-width: 680px; margin: 26px auto 0; text-align: left; }
+.conj-ref .table { display: block; overflow-x: auto; white-space: nowrap; }
+.mode .import { max-width: 680px; margin: 26px auto 0; text-align: left; }
+
+@media (max-width: 560px) {
+  .conj-row { grid-template-columns: 1fr; gap: 4px; }
+  .conj-person { margin-top: 8px; }
+}

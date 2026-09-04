@@ -4,6 +4,7 @@ const Views = {
   flashcards: Flashcards,
   matching: Matching,
   learn: Learn,
+  conjugate: Conjugate,
   progress: Progress,
   words: WordsView,
 };
@@ -11,7 +12,8 @@ const Views = {
 let active = null;
 
 // Called when the active set changes: any half-finished session belongs to
-// the old set, so drop it.
+// the old set, so drop it. Conjugate has no reset — it runs off its own verb
+// sets, so switching vocabulary decks leaves it alone.
 function resetSessions() {
   Object.values(Views).forEach(v => { if (v.reset) v.reset(); });
 }
@@ -36,6 +38,8 @@ function showView(name) {
 document.addEventListener('DOMContentLoaded', () => {
   Store.load();
   Stats.load();
+  VerbStore.load();
+  ConjStats.load();
   document.querySelectorAll('.tab').forEach(t =>
     t.addEventListener('click', () => showView(t.dataset.view)));
   document.addEventListener('keydown', e => {

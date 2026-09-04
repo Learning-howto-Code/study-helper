@@ -20,3 +20,17 @@ function shuffle(arr) {
 function sample(arr, n) {
   return shuffle(arr).slice(0, n);
 }
+
+// Drops accents and the tilde so typed answers do not hinge on them:
+// "senor" passes for "señor", "practico" for "practicó".
+function foldAccents(s) {
+  return String(s)
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .normalize('NFC');
+}
+
+// Comparison key for a typed answer: case, spacing and accents ignored.
+function normAnswer(s) {
+  return foldAccents(String(s)).trim().toLowerCase().replace(/\s+/g, ' ');
+}

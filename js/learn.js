@@ -139,9 +139,8 @@ const Learn = {
       </section>`;
     const input = this.container.querySelector('#learn-input');
     input.focus();
-    const norm = s => s.trim().toLowerCase().replace(/\s+/g, ' ');
     const submit = () => {
-      if (norm(input.value) === norm(w.term)) {
+      if (normAnswer(input.value) === normAnswer(w.term)) {
         input.disabled = true;
         input.classList.add('input-right');
         this._t = setTimeout(() => this.introNext(), 350);
@@ -202,11 +201,10 @@ const Learn = {
 
   renderMC(t) {
     const w = Store.getWord(t.id);
-    const normDef = s => s.trim().toLowerCase();
-    const seenDefs = new Set([normDef(w.def)]);
+    const seenDefs = new Set([normAnswer(w.def)]);
     const pool = Store.words.filter(x => {
-      if (x.id === w.id || seenDefs.has(normDef(x.def))) return false;
-      seenDefs.add(normDef(x.def));
+      if (x.id === w.id || seenDefs.has(normAnswer(x.def))) return false;
+      seenDefs.add(normAnswer(x.def));
       return true;
     });
     const others = sample(pool, 3).map(x => ({ text: x.def, correct: false }));
@@ -263,10 +261,9 @@ const Learn = {
       </section>`;
     const input = this.container.querySelector('#learn-input');
     input.focus();
-    const norm = s => s.trim().toLowerCase().replace(/\s+/g, ' ');
     const check = () => {
       input.disabled = true;
-      if (norm(input.value) === norm(w.term)) {
+      if (normAnswer(input.value) === normAnswer(w.term)) {
         Stats.record(w.id, 'learn', true);
         input.classList.add('input-right');
         this.container.querySelector('#learn-note').innerHTML = '<span class="note-right">Correct.</span>';
