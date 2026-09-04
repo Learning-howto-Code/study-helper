@@ -144,12 +144,6 @@ const Conjugate = {
       <div class="bar"><i style="width:${pct}%"></i></div>`;
   },
 
-  tagChips(verb) {
-    if (!verb.tags || !verb.tags.length) return '';
-    return `<span class="tags">${verb.tags.map(t =>
-      `<span class="tag">${esc(t)}</span>`).join('')}</span>`;
-  },
-
   renderQuiz() {
     const t = this.task();
     const v = this.verb(t.inf);
@@ -163,7 +157,6 @@ const Conjugate = {
           <span class="chip">${esc(getTense(this.s.tenseId).name)}</span>
           <p class="term">${esc(v.inf)}</p>
           <p class="def">${esc(v.gloss)}</p>
-          ${this.tagChips(v)}
           <p class="conj-prompt">${esc(pronoun.label)} &hellip;</p>
           <div class="controls">
             <input class="text-input" id="conj-input" autocomplete="off"
@@ -235,7 +228,6 @@ const Conjugate = {
           <span class="chip">${esc(getTense(this.s.tenseId).name)} &middot; full table</span>
           <p class="term">${esc(v.inf)}</p>
           <p class="def">${esc(v.gloss)}</p>
-          ${this.tagChips(v)}
           <div class="conj-table">
             ${people.map(p => `
               <div class="conj-row">
